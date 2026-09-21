@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>我的网盘</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="navbar">
+        <h1>Web 网盘</h1>
+        <a href="#" id="logoutLink">退出登录</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>账号信息</h2>
+            <div class="user-info" id="userInfo">加载中...</div>
+        </div>
+
+        <div class="card">
+            <h2>上传文件</h2>
+            <div class="upload-row">
+                <input type="file" id="fileInput">
+                <button id="uploadBtn" class="btn">上传</button>
+            </div>
+            <div id="progressWrap" style="display:none; margin-top:12px;">
+                <progress id="progressBar" value="0" max="100" style="width:100%;"></progress>
+                <span id="progressText" style="font-size:13px; color:#555;">0%</span>
+            </div>
+            <p class="msg" id="uploadMsg"></p>
+        </div>
+
+        <div class="card">
+            <h2>文件列表</h2>
+            <div class="search-row">
+                <input type="text" id="searchInput" placeholder="按文件名搜索...">
+                <button id="searchBtn" class="btn">搜索</button>
+                <button id="clearBtn" class="btn btn-secondary">清空</button>
+                <button id="refreshBtn" class="btn btn-secondary">刷新</button>
+            </div>
+            <table id="fileTable">
+                <thead>
+                    <tr>
+                        <th>文件名</th>
+                        <th>大小</th>
+                        <th>上传时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="pagination">
+                <button id="prevBtn" class="btn btn-secondary" disabled>上一页</button>
+                <span id="pageInfo">第 1 页</span>
+                <button id="nextBtn" class="btn btn-secondary">下一页</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/home.js"></script>
+</body>
+</html>

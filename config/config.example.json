@@ -1,0 +1,18 @@
+{
+  "mysql": {
+    "host": "tcp://127.0.0.1:3306",
+    "user": "root",
+    "password": "YOUR_MYSQL_PASSWORD",
+    "database": "webdisk"
+  },
+  "server": {
+    "port": 8888
+  },
+  "storage": {
+    "type": "local",
+    "upload_dir": "uploads"
+  },
+  "token": {
+    "expire_seconds": 86400
+  }
+}
