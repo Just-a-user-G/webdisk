@@ -19,3 +19,6 @@ uploads/
 
 # 测试临时文件
 *.tmp
+
+# 本地备份目录
+backup/

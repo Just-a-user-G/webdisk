@@ -8,6 +8,7 @@
 #include "handler/user_handler.h"
 #include "handler/file_handler.h"
 #include "storage/storage_manager.h"
+#include "mq/producer.h"
 
 static wfrest::HttpServer* g_server = nullptr;
 
@@ -32,6 +33,16 @@ int main() {
         cfg["mysql"]["password"].get<std::string>(),
         cfg["mysql"]["database"].get<std::string>()
     );
+
+    // 2.5 初始化 MQ 生产者
+    if (!Producer::instance().init(
+            cfg["mq"]["uri"].get<std::string>(),
+            cfg["mq"]["exchange"].get<std::string>(),
+            cfg["mq"]["routing_key"].get<std::string>(),
+            cfg["mq"]["queue"].get<std::string>())) {
+        std::cerr << "Failed to init MQ producer\n";
+        return 1;
+    }
 
     // 初始化 Storage
     if (!storage_manager::init(

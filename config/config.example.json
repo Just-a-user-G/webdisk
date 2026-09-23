@@ -14,5 +14,11 @@
   },
   "token": {
     "expire_seconds": 86400
+  },
+  "mq": {
+    "uri": "amqp://guest:guest@127.0.0.1:5672/%2f",
+    "exchange": "",
+    "routing_key": "backup.queue",
+    "queue": "backup.queue"
   }
 }

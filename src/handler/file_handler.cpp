@@ -1,5 +1,6 @@
 #include "handler/file_handler.h"
 #include "storage/storage_manager.h"
+#include "mq/producer.h"
 #include "db/mysql.h"
 #include "util/auth.h"
 #include "util/crypto.h"
@@ -13,7 +14,7 @@
 using json = nlohmann::json;
 
 namespace {
-// 上传文件大小上限：10MB
+// 普通上传文件大小上限：10MB
 const size_t MAX_UPLOAD_SIZE = 10 * 1024 * 1024;
 
 // 统一的错误返回
@@ -187,6 +188,16 @@ void fileUpload(const wfrest::HttpReq* req, wfrest::HttpResp* resp) {
         ps->executeUpdate();
     } catch (sql::SQLException& e) {
         return fail(resp, std::string("db error: ") + e.what());
+    }
+
+    // 4.5 发消息到 MQ，异步备份
+    {
+        json msg;
+        msg["hashcode"]    = hashcode;
+        msg["filename"]    = filename;
+        msg["uid"]         = uid;
+        msg["size"]        = filesize;
+        Producer::instance().publish(msg.dump());
     }
 
     // 5. 返回结果
@@ -633,6 +644,16 @@ void uploadComplete(const wfrest::HttpReq* req, wfrest::HttpResp* resp) {
             ps->setString(3, hashcode);
             ps->setInt64(4, filesize);
             ps->executeUpdate();
+        }
+
+        // 4.5 发消息到 MQ，异步备份
+        {
+            json msg;
+            msg["hashcode"]    = hashcode;
+            msg["filename"]    = filename;
+            msg["uid"]         = uid;
+            msg["size"]        = filesize;
+            Producer::instance().publish(msg.dump());
         }
 
         // 5. 标记会话完成
