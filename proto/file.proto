@@ -1,0 +1,180 @@
+syntax = "proto3";
+
+package webdisk;
+
+// 文件服务
+service FileService {
+    // 文件列表
+    rpc FileQuery(FileQueryReq) returns (FileQueryResp);
+
+    // 普通上传（小文件）
+    rpc FileUpload(FileUploadReq) returns (FileUploadResp);
+
+    // 分片上传：初始化
+    rpc UploadInit(UploadInitReq) returns (UploadInitResp);
+
+    // 分片上传：接收分片
+    rpc UploadChunk(UploadChunkReq) returns (UploadChunkResp);
+
+    // 分片上传：合并
+    rpc UploadComplete(UploadCompleteReq) returns (UploadCompleteResp);
+
+    // 分片上传：查询进度
+    rpc UploadStatus(UploadStatusReq) returns (UploadStatusResp);
+
+    // 文件下载
+    rpc FileDownload(FileDownloadReq) returns (FileDownloadResp);
+
+    // 删除
+    rpc FileDelete(FileDeleteReq) returns (FileDeleteResp);
+
+    // 重命名
+    rpc FileRename(FileRenameReq) returns (FileRenameResp);
+}
+
+// ---- 文件列表 ----
+message FileQueryReq {
+    string username  = 1;
+    string token     = 2;
+    int32  limit     = 3;
+    int32  offset    = 4;
+    string keyword   = 5;
+}
+
+message FileItem {
+    string file_hash    = 1;
+    string file_name    = 2;
+    int64  file_size    = 3;
+    string upload_at    = 4;
+    string last_updated = 5;
+}
+
+message FileQueryResp {
+    int32  code = 1;
+    string msg  = 2;
+    repeated FileItem items = 3;   // repeated 表示数组
+}
+
+// ---- 普通上传 ----
+message FileUploadReq {
+    string username = 1;
+    string token    = 2;
+    string filename = 3;
+    bytes  content  = 4;   // bytes 存二进制内容
+}
+
+message FileUploadResp {
+    int32  code      = 1;
+    string msg       = 2;
+    string file_hash = 3;
+    string file_name = 4;
+    int64  file_size = 5;
+}
+
+// ---- 分片上传：初始化 ----
+message UploadInitReq {
+    string username     = 1;
+    string token        = 2;
+    string filename     = 3;
+    int32  total_chunks = 4;
+    int64  total_size   = 5;
+}
+
+message UploadInitResp {
+    int32  code         = 1;
+    string msg          = 2;
+    string upload_id    = 3;
+    int32  total_chunks = 4;
+    int64  total_size   = 5;
+}
+
+// ---- 分片上传：接收分片 ----
+message UploadChunkReq {
+    string username    = 1;
+    string token       = 2;
+    string upload_id   = 3;
+    int32  chunk_index = 4;
+    bytes  chunk_data  = 5;
+}
+
+message UploadChunkResp {
+    int32  code        = 1;
+    string msg         = 2;
+    string upload_id   = 3;
+    int32  chunk_index = 4;
+    int64  chunk_size  = 5;
+}
+
+// ---- 分片上传：合并 ----
+message UploadCompleteReq {
+    string username  = 1;
+    string token     = 2;
+    string upload_id = 3;
+}
+
+message UploadCompleteResp {
+    int32  code      = 1;
+    string msg       = 2;
+    string file_hash = 3;
+    string file_name = 4;
+    int64  file_size = 5;
+}
+
+// ---- 分片上传：查询进度 ----
+message UploadStatusReq {
+    string username  = 1;
+    string token     = 2;
+    string upload_id = 3;
+}
+
+message UploadStatusResp {
+    int32  code            = 1;
+    string msg             = 2;
+    string upload_id       = 3;
+    string file_name       = 4;
+    int32  total_chunks    = 5;
+    repeated int32 received_chunks = 6;
+}
+
+// ---- 下载 ----
+message FileDownloadReq {
+    string username  = 1;
+    string token     = 2;
+    string filename  = 3;
+    string file_hash = 4;
+}
+
+message FileDownloadResp {
+    int32  code     = 1;
+    string msg      = 2;
+    bytes  content  = 3;
+    string filename = 4;
+    int64  file_size = 5;
+}
+
+// ---- 删除 ----
+message FileDeleteReq {
+    string username  = 1;
+    string token     = 2;
+    string filename  = 3;
+    string file_hash = 4;
+}
+
+message FileDeleteResp {
+    int32  code = 1;
+    string msg  = 2;
+}
+
+// ---- 重命名 ----
+message FileRenameReq {
+    string username     = 1;
+    string token        = 2;
+    string old_filename = 3;
+    string new_filename = 4;
+    string file_hash    = 5;
+}
+
+message FileRenameResp {
+    int32  code = 1;
+    string msg  = 2;
+}

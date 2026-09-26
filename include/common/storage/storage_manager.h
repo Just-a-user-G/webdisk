@@ -1,5 +1,5 @@
 #pragma once
-#include "storage/storage.h"
+#include "common/storage/storage.h"
 #include <string>
 
 // 全局存储管理器：程序启动时初始化，之后通过 get() 使用

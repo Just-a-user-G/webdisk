@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package webdisk;
+
+// 用户服务
+service UserService {
+    // 注册
+    rpc Signup(SignupReq) returns (SignupResp);
+
+    // 登录
+    rpc Signin(SigninReq) returns (SigninResp);
+
+    // 获取用户信息
+    rpc GetUserInfo(GetUserInfoReq) returns (GetUserInfoResp);
+
+    // 校验 Token（供其他服务调用）
+    rpc CheckToken(CheckTokenReq) returns (CheckTokenResp);
+}
+
+// ---- 注册 ----
+message SignupReq {
+    string username = 1;
+    string password = 2;
+}
+
+message SignupResp {
+    int32  code = 1;   // 0 成功，非 0 失败
+    string msg  = 2;
+}
+
+// ---- 登录 ----
+message SigninReq {
+    string username = 1;
+    string password = 2;
+}
+
+message SigninResp {
+    int32  code     = 1;
+    string msg      = 2;
+    string token    = 3;
+    string username = 4;
+}
+
+// ---- 用户信息 ----
+message GetUserInfoReq {
+    string username = 1;
+    string token    = 2;
+}
+
+message GetUserInfoResp {
+    int32  code     = 1;
+    string msg      = 2;
+    string username = 3;
+    string signup_at = 4;
+}
+
+// ---- Token 校验 ----
+message CheckTokenReq {
+    string username = 1;
+    string token    = 2;
+}
+
+message CheckTokenResp {
+    int32  code = 1;   // 0 有效，非 0 无效
+    string msg  = 2;
+    int32  uid  = 3;   // 有效时返回用户 id
+}

@@ -1,7 +1,7 @@
 #include "handler/user_handler.h"
-#include "db/mysql.h"
-#include "util/crypto.h"
-#include "util/auth.h"
+#include "common/db/mysql.h"
+#include "common/util/crypto.h"
+#include "common/util/auth.h"
 #include <nlohmann/json.hpp>
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>

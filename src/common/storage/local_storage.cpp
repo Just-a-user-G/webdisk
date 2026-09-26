@@ -1,4 +1,4 @@
-#include "storage/local_storage.h"
+#include "common/storage/local_storage.h"
 #include <fstream>
 #include <iterator>
 #include <cstdio>

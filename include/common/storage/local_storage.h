@@ -1,5 +1,5 @@
 #pragma once
-#include "storage/storage.h"
+#include "common/storage/storage.h"
 #include <string>
 
 // 本地文件系统存储：文件保存到 <base_dir>/<key>

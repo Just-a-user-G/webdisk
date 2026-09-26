@@ -1,4 +1,4 @@
-#include "db/mysql.h"
+#include "common/db/mysql.h"
 
 std::string MySQL::host_, MySQL::user_, MySQL::password_, MySQL::database_;
 

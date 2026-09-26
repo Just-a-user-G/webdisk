@@ -1,9 +1,9 @@
 #include "handler/file_handler.h"
-#include "storage/storage_manager.h"
-#include "mq/producer.h"
-#include "db/mysql.h"
-#include "util/auth.h"
-#include "util/crypto.h"
+#include "common/storage/storage_manager.h"
+#include "common/mq/producer.h"
+#include "common/db/mysql.h"
+#include "common/util/auth.h"
+#include "common/util/crypto.h"
 #include <nlohmann/json.hpp>
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>

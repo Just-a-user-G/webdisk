@@ -1,5 +1,5 @@
-#include "util/auth.h"
-#include "db/mysql.h"
+#include "common/util/auth.h"
+#include "common/db/mysql.h"
 #include <cppconn/prepared_statement.h>
 #include <cppconn/resultset.h>
 

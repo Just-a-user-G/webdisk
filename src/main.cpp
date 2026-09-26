@@ -4,11 +4,11 @@
 #include <iostream>
 #include <csignal>
 
-#include "db/mysql.h"
+#include "common/db/mysql.h"
 #include "handler/user_handler.h"
 #include "handler/file_handler.h"
-#include "storage/storage_manager.h"
-#include "mq/producer.h"
+#include "common/storage/storage_manager.h"
+#include "common/mq/producer.h"
 
 static wfrest::HttpServer* g_server = nullptr;
 
